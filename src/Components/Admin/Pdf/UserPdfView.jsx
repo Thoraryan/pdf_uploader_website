@@ -65,7 +65,7 @@ const UserPdfView = () => {
         }
 
         // Construct full file URL for the PDF viewer
-        const fullPdfUrl = `http://localhost:8080/${currentPdf.filePath}`;
+        const fullPdfUrl = `${import.meta.env.VITE_BASE_URL}${currentPdf.filePath}`;
         setPdfFileUrl(fullPdfUrl);
         setLoading(false);
       } catch (err) {
