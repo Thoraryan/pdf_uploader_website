@@ -1,9 +1,7 @@
 export const getDeviceId = () => {
   try {
-    // Use existing deviceId from localStorage if available
     let deviceId = localStorage.getItem("deviceId");
     if (!deviceId) {
-      // Safe fallback for environments without crypto.randomUUID
       const generateUUID = () => {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
           const r = Math.random() * 16 | 0;
@@ -12,7 +10,6 @@ export const getDeviceId = () => {
         });
       };
 
-      // Use built-in randomUUID or fallback
       deviceId = typeof crypto.randomUUID === 'function'
         ? crypto.randomUUID()
         : generateUUID();
