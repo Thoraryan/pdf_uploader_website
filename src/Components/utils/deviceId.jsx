@@ -1,9 +1,9 @@
 // utils/deviceId.js
-export const getDeviceId = () => {
+export function getDeviceId() {
   let deviceId = localStorage.getItem("deviceId");
   if (!deviceId) {
-    deviceId = crypto.randomUUID(); // or use uuid or nanoid
+    deviceId = crypto.randomUUID(); // Requires modern browsers
     localStorage.setItem("deviceId", deviceId);
   }
   return deviceId;
-};
+}

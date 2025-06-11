@@ -19,64 +19,123 @@ const UserPdfView = () => {
     return res.data.ip;
   };
 
+  // useEffect(() => {
+  //   if (hasRun.current) return;
+  //   hasRun.current = true;
+
+  //   const checkAccess = async () => {
+  //     try {
+  //       setLoading(true);
+
+  //       const ip = await getIpAddress();
+  //       const deviceId = getDeviceId();
+
+  //       // Fetch the specific PDF info from backend
+  //       const res = await axios.post(
+  //         `${import.meta.env.VITE_BASE_URL_API}/pdf/view-one/${pdfid}`
+  //       );
+  //       const currentPdf = res.data.data;
+
+  //       if (!currentPdf) {
+  //         showAlert("error", "PDF not found");
+  //         setLoading(false);
+  //         return;
+  //       }
+
+  //       const accessedDevices = currentPdf.accessList || [];
+  //       const userLimit = currentPdf.userLimit;
+
+  //       const alreadyAccessed = accessedDevices.some(
+  //         (entry) => entry.deviceId === deviceId
+  //       );
+
+  //       if (!alreadyAccessed) {
+  //         if (accessedDevices.length >= userLimit) {
+  //           setBlocked(true);
+  //           showAlert("error", "User limit exceeded. Access denied.");
+  //           setLoading(false);
+  //           return;
+  //         }
+
+  //         // Save IP + deviceId to backend
+  //         await axios.put(
+  //           `${import.meta.env.VITE_BASE_URL_API}/pdf/add-ip/${pdfid}`,
+  //           { ip, deviceId }
+  //         );
+  //       }
+
+  //       // Construct full file URL for the PDF viewer
+  //       const fullPdfUrl = `${import.meta.env.VITE_BASE_URL}${currentPdf.filePath}`;
+  //       setPdfFileUrl(fullPdfUrl);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       console.error("Access check failed:", err);
+  //       showAlert("error", err.response?.data?.message || "Access error");
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   checkAccess();
+  // }, [pdfid]);
   useEffect(() => {
-    if (hasRun.current) return;
-    hasRun.current = true;
+  if (hasRun.current) return;
+  hasRun.current = true;
 
-    const checkAccess = async () => {
-      try {
-        setLoading(true);
+  const checkAccess = async () => {
+    try {
+      setLoading(true);
 
-        const ip = await getIpAddress();
-        const deviceId = getDeviceId();
+      const ipRes = await axios.get(`${import.meta.env.VITE_BASE_URL_API}/pdf/ip`);
+      const ip = ipRes.data.ip;
+      const deviceId = getDeviceId();
 
-        // Fetch the specific PDF info from backend
-        const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL_API}/pdf/view-one/${pdfid}`
-        );
-        const currentPdf = res.data.data;
+      console.log("Using IP:", ip);
+      console.log("Device ID:", deviceId);
 
-        if (!currentPdf) {
-          showAlert("error", "PDF not found");
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL_API}/pdf/view-one/${pdfid}`
+      );
+      const currentPdf = res.data.data;
+
+      if (!currentPdf) {
+        showAlert("error", "PDF not found");
+        setLoading(false);
+        return;
+      }
+
+      const accessedDevices = currentPdf.accessList || [];
+      const userLimit = currentPdf.userLimit;
+
+      const alreadyAccessed = accessedDevices.some(
+        (entry) => entry.deviceId === deviceId
+      );
+
+      if (!alreadyAccessed) {
+        if (accessedDevices.length >= userLimit) {
+          setBlocked(true);
+          showAlert("error", "User limit exceeded. Access denied.");
           setLoading(false);
           return;
         }
 
-        const accessedDevices = currentPdf.accessList || [];
-        const userLimit = currentPdf.userLimit;
-
-        const alreadyAccessed = accessedDevices.some(
-          (entry) => entry.deviceId === deviceId
+        await axios.put(
+          `${import.meta.env.VITE_BASE_URL_API}/pdf/add-ip/${pdfid}`,
+          { ip, deviceId }
         );
-
-        if (!alreadyAccessed) {
-          if (accessedDevices.length >= userLimit) {
-            setBlocked(true);
-            showAlert("error", "User limit exceeded. Access denied.");
-            setLoading(false);
-            return;
-          }
-
-          // Save IP + deviceId to backend
-          await axios.put(
-            `${import.meta.env.VITE_BASE_URL_API}/pdf/add-ip/${pdfid}`,
-            { ip, deviceId }
-          );
-        }
-
-        // Construct full file URL for the PDF viewer
-        const fullPdfUrl = `${import.meta.env.VITE_BASE_URL}${currentPdf.filePath}`;
-        setPdfFileUrl(fullPdfUrl);
-        setLoading(false);
-      } catch (err) {
-        console.error("Access check failed:", err);
-        showAlert("error", err.response?.data?.message || "Access error");
-        setLoading(false);
       }
-    };
 
-    checkAccess();
-  }, [pdfid]);
+      const fullPdfUrl = `${import.meta.env.VITE_BASE_URL}${currentPdf.filePath}`;
+      setPdfFileUrl(fullPdfUrl);
+      setLoading(false);
+    } catch (err) {
+      console.error("Access check failed:", err);
+      showAlert("error", err.response?.data?.message || "Access error");
+      setLoading(false);
+    }
+  };
+
+  checkAccess();
+}, [pdfid]);
 
   if (loading) {
     return (
