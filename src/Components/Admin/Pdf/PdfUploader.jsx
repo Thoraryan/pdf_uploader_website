@@ -19,7 +19,10 @@ const PdfUploader = () => {
 
         // Convert expiryTime to UTC ISO string
         const utcExpiryTime = new Date(values.expiryTime).toISOString();
+        console.log("Local expiryTime:", values.expiryTime);
+        console.log("utcExpiryTime:", utcExpiryTime);
         formData.append("expiryTime", utcExpiryTime);
+
         formData.append("userLimit", values.userLimit);
 
         console.log("Converted expiryTime to UTC:", utcExpiryTime);
