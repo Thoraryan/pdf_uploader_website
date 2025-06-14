@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaEdit, FaTrash, FaFilePdf } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaFilePdf, FaCopy } from "react-icons/fa";
 import axios from "axios";
 import { showAlert, AreYouSure } from "../../utils/ShowAlert";
 import { Link } from "react-router-dom";
@@ -49,6 +49,18 @@ const Pdf = () => {
     }
   };
 
+  const handleCopyLink = (id) => {
+    const link = `${window.location.origin}/pdf-view/${id}`;
+    console.log("Trying to copy:", link);
+    navigator.clipboard
+      .writeText(link)
+      .then(() => showAlert("success", "Link copied to clipboard"))
+      .catch((err) => {
+        console.error("Clipboard error:", err);
+        showAlert("error", "Clipboard copy failed");
+      });
+  };
+
   return (
     <div>
       <div className="comman-design">
@@ -63,6 +75,7 @@ const Pdf = () => {
                   <th>Sr.no</th>
                   <th>PDF</th>
                   <th>User Limit</th>
+                  <th>Expiry Date</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -78,8 +91,19 @@ const Pdf = () => {
                       </td>
                       <td>{item.userLimit}</td>
                       <td>
+                        {new Date(item.expiryTime).toLocaleString("en-IN", {
+                          timeZone: "Asia/Kolkata",
+                          hour12: true, // optional: for AM/PM
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </td>
+                      <td>
                         <div className="d-flex gap-2 justify-content-center">
-                          <Link
+                          {/* <Link
                             target="_"
                             // to={`${import.meta.env.VITE_BASE_URL}${
                             //   item.filePath
@@ -90,7 +114,14 @@ const Pdf = () => {
                             title="View"
                           >
                             <FaEye className="text-white" />
-                          </Link>
+                          </Link> */}
+                          <button
+                            className="btn btn-sm btn-success"
+                            onClick={() => handleCopyLink(item._id)}
+                            title="Copy Link"
+                          >
+                            <FaCopy />
+                          </button>
                           {/* <button
                             className="btn btn-warning btn-sm"
                             title="Edit"

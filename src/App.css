@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900|Nunito:200,300,400,600,700,800,900&display=swap");
+
   body {
     font-family: 'Poppins', sans-serif;
     background-color: #484747;
@@ -331,3 +333,78 @@
     width: 100%;
     height: 99.2vh;
   }
+
+  /* access denied css */
+
+ .no-internet-wrap {
+  background-color: #FFFF; /* white */
+  color: #1e1e1e;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-internet-box {
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-internet-tips ul {
+  list-style-position: inside; /* Keep bullets aligned with centered text */
+  padding: 0;
+  margin: 10px 0;
+  text-align: center; /* Ensure list text is centered */
+}
+
+.retry-btn {
+  margin-top: 10px;
+}
+
+.notify-msg {
+  margin-top: 10px;
+}
+
+.dino-img {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.no-internet-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.no-internet-tips ul {
+  text-align: left;
+  margin: 10px 0;
+}
+
+.error-code {
+  margin: 10px 0;
+  color: #aaa;
+}
+
+.retry-btn {
+  /* background-color: #1a73e8; */
+  color: #1e1e1e;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.notify-msg {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.cancel-text {
+  color: #1a73e8;
+  cursor: pointer;
+}

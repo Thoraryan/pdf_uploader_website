@@ -16,9 +16,13 @@ const PdfUploader = () => {
       try {
         const formData = new FormData();
         formData.append("pdf", values.pdf);
-        formData.append("expiryTime", values.expiryTime);
+
+        // Convert expiryTime to UTC ISO string
+        const utcExpiryTime = new Date(values.expiryTime).toISOString();
+        formData.append("expiryTime", utcExpiryTime);
         formData.append("userLimit", values.userLimit);
 
+        console.log("Converted expiryTime to UTC:", utcExpiryTime);
         for (let [key, value] of formData.entries()) {
           console.log(`${key}:`, value);
         }
@@ -27,6 +31,7 @@ const PdfUploader = () => {
           `${import.meta.env.VITE_BASE_URL_API}/pdf/upload`,
           formData
         );
+
         showAlert("success", response.data.message);
         resetForm();
       } catch (err) {
@@ -66,6 +71,7 @@ const PdfUploader = () => {
                   )}
                 </div>
               </div>
+
               <div className="col-md-4">
                 <div className="form-group mb-4">
                   <label htmlFor="expiryTime" className="text-white">
@@ -86,6 +92,7 @@ const PdfUploader = () => {
                   )}
                 </div>
               </div>
+
               <div className="col-md-4">
                 <div className="form-group mb-4">
                   <label htmlFor="userLimit" className="text-white">
@@ -107,10 +114,11 @@ const PdfUploader = () => {
                 </div>
               </div>
             </div>
+
             <div className="mt-4">
               <button type="submit" className="btn-login font-medium w-100">
-              Upload PDF
-            </button>
+                Upload PDF
+              </button>
             </div>
           </form>
         </div>
