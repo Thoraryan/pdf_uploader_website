@@ -50,9 +50,9 @@ const Pdf = () => {
   };
 
   const handleCopyLink = (id) => {
-    const link = `http://13.232.77.211/pdf-view/${id}`;
+    // const link = `http://13.232.77.211/pdf-view/${id}`;
 
-    console.log("Trying to copy link:", link);
+    console.log("Trying to copy link:");
     // Try Clipboard API
     // if (navigator.clipboard?.writeText) {
     //   navigator.clipboard
@@ -69,32 +69,6 @@ const Pdf = () => {
     //   fallbackCopy(link);
     // }
   };
-
-  // Fallback copy using hidden textarea
-  function fallbackCopy(text) {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.setAttribute("readonly", "");
-    textarea.style.position = "absolute";
-    textarea.style.left = "-9999px";
-    document.body.appendChild(textarea);
-    textarea.select();
-
-    try {
-      const success = document.execCommand("copy");
-      if (success) {
-        showAlert("success", "Link copied (fallback)");
-      } else {
-        showAlert("error", "Copy failed (fallback)");
-      }
-    } catch (err) {
-      console.error("Fallback copy failed:", err);
-      showAlert("error", "Clipboard not supported");
-    }
-
-    document.body.removeChild(textarea);
-  }
-
   return (
     <div>
       <div className="comman-design">

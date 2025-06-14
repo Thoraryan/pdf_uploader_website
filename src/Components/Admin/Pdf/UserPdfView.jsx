@@ -95,6 +95,7 @@ const UserPdfView = () => {
         const fullPdfUrl = `${import.meta.env.VITE_BASE_URL}public${
           currentPdf.filePath
         }`;
+        console.log("fullPdfUrl",fullPdfUrl)
         setPdfFileUrl(fullPdfUrl);
         setLoading(false);
       } catch (err) {
@@ -108,83 +109,83 @@ const UserPdfView = () => {
   }, [pdfid]);
 
   // --- BLOCK SUSPICIOUS BEHAVIOR ---
-  useEffect(() => {
-    const blurContent = () => {
-      document.body.style.filter = "blur(10px)";
-    };
+  // useEffect(() => {
+  //   const blurContent = () => {
+  //     document.body.style.filter = "blur(10px)";
+  //   };
 
-    const unblurContent = () => {
-      document.body.style.filter = "none";
-    };
+  //   const unblurContent = () => {
+  //     document.body.style.filter = "none";
+  //   };
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        setSuspicious(true);
-        blurContent();
-      } else {
-        setSuspicious(false);
-        unblurContent();
-      }
-    };
+  //   const handleVisibilityChange = () => {
+  //     if (document.hidden) {
+  //       setSuspicious(true);
+  //       blurContent();
+  //     } else {
+  //       setSuspicious(false);
+  //       unblurContent();
+  //     }
+  //   };
 
-    const handleBlur = () => {
-      setSuspicious(true);
-      blurContent();
-      alert("Window focus lost. Access temporarily blocked.");
-    };
+  //   const handleBlur = () => {
+  //     setSuspicious(true);
+  //     blurContent();
+  //     alert("Window focus lost. Access temporarily blocked.");
+  //   };
 
-    const handleFocus = () => {
-      setSuspicious(false);
-      unblurContent();
-    };
+  //   const handleFocus = () => {
+  //     setSuspicious(false);
+  //     unblurContent();
+  //   };
 
-    const handleKeyDown = (e) => {
-      const blockedKeys = ["F12", "PrintScreen"];
-      if (
-        blockedKeys.includes(e.key) ||
-        (e.ctrlKey && ["p", "s", "c", "x", "u"].includes(e.key.toLowerCase()))
-      ) {
-        e.preventDefault();
-        setSuspicious(true);
-        blurContent();
-        alert("This key is blocked for security reasons.");
-      }
-    };
+  //   const handleKeyDown = (e) => {
+  //     const blockedKeys = ["F12", "PrintScreen"];
+  //     if (
+  //       blockedKeys.includes(e.key) ||
+  //       (e.ctrlKey && ["p", "s", "c", "x", "u"].includes(e.key.toLowerCase()))
+  //     ) {
+  //       e.preventDefault();
+  //       setSuspicious(true);
+  //       blurContent();
+  //       alert("This key is blocked for security reasons.");
+  //     }
+  //   };
 
-    const handleKeyUp = (e) => {
-      if (e.key === "PrintScreen") {
-        setSuspicious(true);
-        blurContent();
-        alert("Screenshot attempt detected. Access temporarily blocked.");
-      }
-    };
+  //   const handleKeyUp = (e) => {
+  //     if (e.key === "PrintScreen") {
+  //       setSuspicious(true);
+  //       blurContent();
+  //       alert("Screenshot attempt detected. Access temporarily blocked.");
+  //     }
+  //   };
 
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-    };
+  //   const handleContextMenu = (e) => {
+  //     e.preventDefault();
+  //   };
 
-    const disableCopy = (e) => {
-      e.preventDefault();
-    };
+  //   const disableCopy = (e) => {
+  //     e.preventDefault();
+  //   };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("blur", handleBlur);
-    window.addEventListener("focus", handleFocus);
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-    window.addEventListener("contextmenu", handleContextMenu);
-    document.addEventListener("copy", disableCopy);
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   window.addEventListener("blur", handleBlur);
+  //   window.addEventListener("focus", handleFocus);
+  //   window.addEventListener("keydown", handleKeyDown);
+  //   window.addEventListener("keyup", handleKeyUp);
+  //   window.addEventListener("contextmenu", handleContextMenu);
+  //   document.addEventListener("copy", disableCopy);
 
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("blur", handleBlur);
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-      window.removeEventListener("contextmenu", handleContextMenu);
-      document.removeEventListener("copy", disableCopy);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //     window.removeEventListener("blur", handleBlur);
+  //     window.removeEventListener("focus", handleFocus);
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //     window.removeEventListener("keyup", handleKeyUp);
+  //     window.removeEventListener("contextmenu", handleContextMenu);
+  //     document.removeEventListener("copy", disableCopy);
+  //   };
+  // }, []);
 
   if (loading) {
     return (
