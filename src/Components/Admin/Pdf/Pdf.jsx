@@ -51,8 +51,31 @@ const Pdf = () => {
 
   const handleCopyLink = (id) => {
     const link = `http://13.232.77.211/pdf-view/${id}`;
-    // navigator.clipboard.writeText(link);
-    showAlert("success", "Link copied to clipboard");
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(link)
+        .then(() => {
+          showAlert("success", "Link copied to clipboard");
+        })
+        .catch((err) => {
+          console.error("Clipboard error:", err);
+          showAlert("error", "Failed to copy link");
+        });
+    } else {
+      // Fallback for older browsers
+      const textarea = document.createElement("textarea");
+      textarea.value = link;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        showAlert("success", "Link copied to clipboard");
+      } catch (err) {
+        showAlert("error", "Clipboard not supported");
+      }
+      document.body.removeChild(textarea);
+    }
   };
 
   return (
