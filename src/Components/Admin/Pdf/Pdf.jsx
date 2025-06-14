@@ -50,15 +50,9 @@ const Pdf = () => {
   };
 
   const handleCopyLink = (id) => {
-    const link = `${window.location.origin}/pdf-view/${id}`;
-    console.log("Trying to copy:", link);
-    navigator.clipboard
-      .writeText(link)
-      .then(() => showAlert("success", "Link copied to clipboard"))
-      .catch((err) => {
-        console.error("Clipboard error:", err);
-        showAlert("error", "Clipboard copy failed");
-      });
+    const link = `http://13.232.77.211/pdf-view/${id}`;
+    // navigator.clipboard.writeText(link);
+    showAlert("success", "Link copied to clipboard");
   };
 
   return (
