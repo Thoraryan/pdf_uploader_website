@@ -52,21 +52,22 @@ const Pdf = () => {
   const handleCopyLink = (id) => {
     const link = `http://13.232.77.211/pdf-view/${id}`;
 
+    console.log("Trying to copy link:", link);
     // Try Clipboard API
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard
-        .writeText(link)
-        .then(() => {
-          showAlert("success", "Link copied to clipboard");
-        })
-        .catch((err) => {
-          console.warn("Clipboard API failed, using fallback:", err);
-          fallbackCopy(link);
-        });
-    } else {
-      // Use fallback if Clipboard API not available
-      fallbackCopy(link);
-    }
+    // if (navigator.clipboard?.writeText) {
+    //   navigator.clipboard
+    //     .writeText(link)
+    //     .then(() => {
+    //       showAlert("success", "Link copied to clipboard");
+    //     })
+    //     .catch((err) => {
+    //       console.warn("Clipboard API failed, using fallback:", err);
+    //       fallbackCopy(link);
+    //     });
+    // } else {
+    //   // Use fallback if Clipboard API not available
+    //   fallbackCopy(link);
+    // }
   };
 
   // Fallback copy using hidden textarea
